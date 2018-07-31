@@ -21,6 +21,12 @@ apply plugin: 'com.android.library'
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':gvr-keyboard')
+    compile project(':gvr-keyboardsupport-release')
+    compile project(':gvr-permissionsupport-release')
+    compile project(':gvr')
+    compile project(':unitygvr')
 }
 
 android {
@@ -28,7 +34,7 @@ android {
 	buildToolsVersion '27.0.3'
 
 	defaultConfig {
-		minSdkVersion	16
+		minSdkVersion	19
 		targetSdkVersion 27
 		ndk {
 			abiFilters 'armeabi-v7a', 'x86'

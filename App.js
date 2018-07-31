@@ -14,6 +14,7 @@ import {
   NativeSyntheticEvent,
   Alert
 } from 'react-native';
+import base from './base';
 
 import Button from './btn';
 import UnityView, { UnityViewMessageEventData, MessageHandler } from 'react-native-unity-view';
@@ -80,6 +81,11 @@ export default class App extends React.Component {
     }
   }
 
+  loadBase64 = () => {
+    this.unity && this.unity.postMessageToUnityManager(base);
+  }
+
+
   onUnityMessage(hander: MessageHandler) {
     this.setState({ clickCount: this.state.clickCount + 1 });
     setTimeout(() => {
@@ -110,8 +116,9 @@ export default class App extends React.Component {
         </Text>
         <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{clickCount}</Text> </Text>
         <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
-        {renderUnity ? <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} /> : null}
-        {renderUnity ? <Button label={unityPaused ? "Resume" : "Pause"} style={styles.button} onPress={this.onPauseAndResumeUnity.bind(this)} /> : null}
+        {renderUnity ? <Button label="LOAD BASE64" style={styles.button} onPress={this.loadBase64} /> : null}
+        {/*renderUnity ? <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} /> : null}
+        {renderUnity ? <Button label={unityPaused ? "Resume" : "Pause"} style={styles.button} onPress={this.onPauseAndResumeUnity.bind(this)} /> : null*/}
       </View>
     );
   }

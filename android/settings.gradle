@@ -1,5 +1,5 @@
 rootProject.name = 'unityDemoProj'
-include ':react-native-unity-view'
+include ':react-native-unity-view', ':gvr-keyboard', ':gvr-keyboardsupport-release', ':gvr-permissionsupport-release', ':unitygvr', ':gvr'
 project(':react-native-unity-view').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-unity-view/android')
 
 include ':app'
