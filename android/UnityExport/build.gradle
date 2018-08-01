@@ -21,7 +21,6 @@ apply plugin: 'com.android.library'
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile project(':gvr-keyboard')
     compile project(':gvr-keyboardsupport-release')
     compile project(':gvr-permissionsupport-release')
