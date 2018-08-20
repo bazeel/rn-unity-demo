@@ -85,6 +85,17 @@ export default class App extends React.Component {
     this.unity && this.unity.postMessageToUnityManager(base);
   }
 
+  toggleLogger = () => {
+    console.log('logger');
+    const message = JSON.stringify({
+      type: "toggle_logger",
+      data: {
+        "activate" : true
+      },
+    });
+    console.log('logger', message);
+    this.unity && this.unity.postMessage('UnityMessageManager', 'ReceiveMessage', message);
+  }
 
   onUnityMessage(hander: MessageHandler) {
     this.setState({ clickCount: this.state.clickCount + 1 });
@@ -117,6 +128,7 @@ export default class App extends React.Component {
         <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{clickCount}</Text> </Text>
         <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
         {renderUnity ? <Button label="LOAD BASE64" style={styles.button} onPress={this.loadBase64} /> : null}
+        {renderUnity ? <Button label="LOGGER" style={styles.button} onPress={this.toggleLogger} /> : null}
         {/*renderUnity ? <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} /> : null}
         {renderUnity ? <Button label={unityPaused ? "Resume" : "Pause"} style={styles.button} onPress={this.onPauseAndResumeUnity.bind(this)} /> : null*/}
       </View>
