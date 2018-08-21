@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import * as React from 'react';
 import {
   Platform,
@@ -14,7 +8,7 @@ import {
   NativeSyntheticEvent,
   Alert
 } from 'react-native';
-import base from './base';
+// import base from './base';
 
 import Button from './btn';
 import UnityView, { UnityViewMessageEventData, MessageHandler } from 'react-native-unity-view';
@@ -45,6 +39,7 @@ export default class App extends React.Component {
       renderUnity: false,
       unityPaused: false
     }
+    this.isLogger = false;
   }
 
   componentDidMount() {
@@ -86,14 +81,25 @@ export default class App extends React.Component {
   }
 
   toggleLogger = () => {
-    console.log('logger');
+    this.isLogger = !this.isLogger;
     const message = JSON.stringify({
       type: "toggle_logger",
       data: {
-        "activate" : true
+        "activate" : this.isLogger,
       },
     });
     console.log('logger', message);
+    this.unity && this.unity.postMessage('UnityMessageManager', 'ReceiveMessage', message);
+  }
+
+  sendConfigs = () => {
+    const message = JSON.stringify({
+      type:"config",
+      data: {
+        api_root:"https://roundme.com",
+        image_root:"https://static.roundme.com",
+      }
+    });
     this.unity && this.unity.postMessage('UnityMessageManager', 'ReceiveMessage', message);
   }
 
@@ -126,9 +132,10 @@ export default class App extends React.Component {
           {instructions}
         </Text>
         <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{clickCount}</Text> </Text>
-        <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
-        {renderUnity ? <Button label="LOAD BASE64" style={styles.button} onPress={this.loadBase64} /> : null}
-        {renderUnity ? <Button label="LOGGER" style={styles.button} onPress={this.toggleLogger} /> : null}
+        <Button label="TOGGLE UNITY" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
+        {renderUnity ? <Button label="TOGGLE LOGGER" style={styles.button} onPress={this.toggleLogger} /> : null}
+        {renderUnity ? <Button label="SEND CONFIGS" style={styles.button} onPress={this.sendConfigs} /> : null}
+        {/*renderUnity ? <Button label="LOAD BASE64" style={styles.button} onPress={this.loadBase64} /> : null */}
         {/*renderUnity ? <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} /> : null}
         {renderUnity ? <Button label={unityPaused ? "Resume" : "Pause"} style={styles.button} onPress={this.onPauseAndResumeUnity.bind(this)} /> : null*/}
       </View>
