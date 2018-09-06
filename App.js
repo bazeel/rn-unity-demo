@@ -20,13 +20,6 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
-
-type State = {
-  clickCount: number;
-  renderUnity: boolean;
-  unityPaused: boolean;
-};
 
 export default class App extends React.Component {
 
@@ -101,14 +94,19 @@ export default class App extends React.Component {
       }
     });
     this.unity && this.unity.postMessage('UnityMessageManager', 'ReceiveMessage', message);
-  }
+  };
 
-  onUnityMessage(hander: MessageHandler) {
-    this.setState({ clickCount: this.state.clickCount + 1 });
-    setTimeout(() => {
-      hander.send('I am click callback!');
-    }, 2000);
-  }
+  onUnityMessage = (data = {}) => {
+    Alert.alert('onUnityMessage', JSON.stringify(data))
+    // this.setState({ clickCount: this.state.clickCount + 1 });
+    // setTimeout(() => {
+    //   hander.send('I am click callback!');
+    // }, 2000);
+  };
+
+  onMessage = (data = {}) => {
+    Alert.alert('onMessage', JSON.stringify(data))
+  };
 
   render() {
     const { renderUnity, unityPaused, clickCount } = this.state;
@@ -119,7 +117,8 @@ export default class App extends React.Component {
           <UnityView
             ref={(ref) => this.unity = ref}
             style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
-            onUnityMessage={this.onUnityMessage.bind(this)}
+            onUnityMessage={this.onUnityMessage}
+            onMessage={this.onMessage}
           />
         }
         <Text style={styles.welcome}>
