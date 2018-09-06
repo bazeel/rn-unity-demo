@@ -104,8 +104,10 @@ export default class App extends React.Component {
     // }, 2000);
   };
 
-  onMessage = (data = {}) => {
-    Alert.alert('onMessage', JSON.stringify(data))
+  onMessage = (event) => {
+    const data = event && event.nativeEvent && event.nativeEvent.message
+      ? JSON.stringify(event.nativeEvent.message) : 'no data';
+    Alert.alert('onMessage', data);
   };
 
   render() {
